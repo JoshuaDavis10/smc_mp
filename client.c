@@ -70,10 +70,13 @@ int main(int argc, char** argv) {
 
     freeaddrinfo(servinfo); //done with addressinfo
 
+    char buf[MAX_MESSAGE_SIZE];
+    char msg[MAX_MESSAGE_SIZE];
+    int numbytes;
+
     while(1) {
         //TODO: receive message
-        char buf[MAX_MESSAGE_SIZE];
-        int numbytes = recv(sockfd, buf, MAX_MESSAGE_SIZE-1, 0); 
+        numbytes = recv(sockfd, buf, MAX_MESSAGE_SIZE-1, 0); 
         if(numbytes == -1) {
             printf("\e[1;31mERROR: recv() returned -1\e[0;37m\n");
             return -1;
@@ -86,8 +89,7 @@ int main(int argc, char** argv) {
 
         //TODO: send message
         printf("- ");
-        char msg[MAX_MESSAGE_SIZE];
-        scanf("%[^\n]", msg);
+        fgets(msg, MAX_MESSAGE_SIZE, stdin);
 
         if(send(sockfd, msg, strlen(msg), 0) == -1) {
             printf("\e[1;31mERROR: send() returned -1\e[0;37m\n");

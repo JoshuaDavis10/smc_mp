@@ -119,6 +119,10 @@ int main() {
     printf("DEBUG: got connection from %s\n", s2); //commenting this out bc it prints IP address LOL
     //printf("DEBUG: got connection from client 2\n");
 
+    int numbytes;
+    char cl1_msg[MAX_MESSAGE_SIZE];
+    char cl2_msg[MAX_MESSAGE_SIZE];
+
     //loop and receive messages
     int counter = 0;
     while(1) {
@@ -126,7 +130,7 @@ int main() {
         //TODO: send client 1 a message so that he can start
         //first loop
         if(counter == 0) {
-            char* msg = "\n";
+            char* msg = " ";
             if(send(client_one_fd, msg, strlen(msg), 0) == -1) {
                 printf("\e[1;31mERROR: send() returned -1\e[0;37m\n");
                 return -1;
@@ -134,9 +138,10 @@ int main() {
             counter++;
         } 
 
+        sleep(5);
+
         //TODO: receive from client 1
-        char cl1_msg[MAX_MESSAGE_SIZE];
-        int numbytes = recv(client_one_fd, cl1_msg, MAX_MESSAGE_SIZE-1, 0);
+        numbytes = recv(client_one_fd, cl1_msg, MAX_MESSAGE_SIZE-1, 0);
         if(numbytes == -1) {
             printf("\e[1;31mERROR: recv() returned -1\e[0;37m\n");
             return -1;
@@ -150,8 +155,9 @@ int main() {
             return -1;
         }
 
+        sleep(5);
+
         //TODO: receive from client 2
-        char cl2_msg[MAX_MESSAGE_SIZE];
         numbytes = recv(client_two_fd, cl2_msg, MAX_MESSAGE_SIZE-1, 0);
         if(numbytes == -1) {
             printf("\e[1;31mERROR: recv() returned -1\e[0;37m\n");
