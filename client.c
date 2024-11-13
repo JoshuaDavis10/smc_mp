@@ -84,7 +84,7 @@ int main(int argc, char** argv) {
         buf[numbytes] = '\0';
 
         //TODO: print received message
-        printf("\e[1;32m- %s\n\e[0;37m", buf);
+        printf("\e[1;32m- %s\e[0;37m", buf);
 
 
         //TODO: send message
