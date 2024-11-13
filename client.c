@@ -70,6 +70,31 @@ int main(int argc, char** argv) {
 
     freeaddrinfo(servinfo); //done with addressinfo
 
+    while(1) {
+        //TODO: receive message
+        char buf[MAX_MESSAGE_SIZE];
+        int numbytes = recv(sockfd, buf, MAX_MESSAGE_SIZE-1, 0); 
+        if(numbytes == -1) {
+            printf("\e[1;31mERROR: recv() returned -1\e[0;37m\n");
+            return -1;
+        }
+
+        //TODO: print received message
+        printf("\e[1;32m- %s\n\e[0;37m", buf);
+
+
+        //TODO: send message
+        printf("- ");
+        char msg[MAX_MESSAGE_SIZE];
+        scanf("%s", msg);
+
+        if(send(sockfd, msg, strlen(msg), 0) == -1) {
+            printf("\e[1;31mERROR: send() returned -1\e[0;37m\n");
+            return -1;
+        }
+
+    }
+
 /*
     //send()
     char* msg_string = "Client of Joshua Davis";

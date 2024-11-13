@@ -119,10 +119,52 @@ int main() {
     //printf("DEBUG: got connection from client 2\n");
 
     //loop and receive messages
+    int counter = 0;
     while(1) {
+
+        //TODO: send client 1 a message so that he can start
+        //first loop
+        if(counter == 0) {
+            char* msg = "\n";
+            if(send(client_one_fd, msg, strlen(msg), 0) == -1) {
+                printf("\e[1;31mERROR: send() returned -1\e[0;37m\n");
+                return -1;
+            }
+            counter++;
+        } 
+
         //TODO: receive from client 1
-        //TODO: send client 1's message to both clients
+        char cl1_msg[MAX_MESSAGE_SIZE];
+        int numbytes = recv(client_one_fd, cl1_msg, MAX_MESSAGE_SIZE-1, 0);
+        if(numbytes == -1) {
+            printf("\e[1;31mERROR: recv() returned -1\e[0;37m\n");
+            return -1;
+        }
+        cl1_msg[numbytes] = '\0';
+        printf("\e[2;31mclient one: %s\n\e[0;37m", cl1_msg);
+
+        //TODO: send client 1's message to client 2 
+        if(send(client_two_fd, cl1_msg, strlen(cl1_msg), 0) == -1) {
+            printf("\e[1;31mERROR: send() returned -1\e[0;37m\n");
+            return -1;
+        }
+
         //TODO: receive from client 2
+        char cl2_msg[MAX_MESSAGE_SIZE];
+        numbytes = recv(client_two_fd, cl2_msg, MAX_MESSAGE_SIZE-1, 0);
+        if(numbytes == -1) {
+            printf("\e[1;31mERROR: recv() returned -1\e[0;37m\n");
+            return -1;
+        }
+        cl2_msg[numbytes] = '\0';
+        printf("\e[2;31mclient two: %s\n\e[0;37m", cl2_msg);
+
+        //TODO: send client 2's message to client 1
+        if(send(client_one_fd, cl2_msg, strlen(cl2_msg), 0) == -1) {
+            printf("\e[1;31mERROR: send() returned -1\e[0;37m\n");
+            return -1;
+        }
+
 
     }
 
