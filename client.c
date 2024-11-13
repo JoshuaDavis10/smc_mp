@@ -78,6 +78,7 @@ int main(int argc, char** argv) {
             printf("\e[1;31mERROR: recv() returned -1\e[0;37m\n");
             return -1;
         }
+        buf[numbytes] = '\0';
 
         //TODO: print received message
         printf("\e[1;32m- %s\n\e[0;37m", buf);
