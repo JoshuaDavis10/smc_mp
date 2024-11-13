@@ -86,7 +86,7 @@ int main(int argc, char** argv) {
         //TODO: send message
         printf("- ");
         char msg[MAX_MESSAGE_SIZE];
-        scanf("%s", msg);
+        scanf("%[^\n]", msg);
 
         if(send(sockfd, msg, strlen(msg), 0) == -1) {
             printf("\e[1;31mERROR: send() returned -1\e[0;37m\n");

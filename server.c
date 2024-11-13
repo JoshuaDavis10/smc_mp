@@ -141,7 +141,7 @@ int main() {
             return -1;
         }
         cl1_msg[numbytes] = '\0';
-        printf("\e[2;31mclient one: %s\n\e[0;37m", cl1_msg);
+        printf("\e[1;33mclient one: %s\n\e[0;37m", cl1_msg);
 
         //TODO: send client 1's message to client 2 
         if(send(client_two_fd, cl1_msg, strlen(cl1_msg), 0) == -1) {
@@ -157,7 +157,7 @@ int main() {
             return -1;
         }
         cl2_msg[numbytes] = '\0';
-        printf("\e[2;31mclient two: %s\n\e[0;37m", cl2_msg);
+        printf("\e[1;32mclient two: %s\n\e[0;37m", cl2_msg);
 
         //TODO: send client 2's message to client 1
         if(send(client_one_fd, cl2_msg, strlen(cl2_msg), 0) == -1) {
