@@ -1,0 +1,8 @@
+#! /usr/bin/bash
+
+cd server
+make
+cd ..
+cd client
+make
+cd ..

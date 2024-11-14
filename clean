@@ -1,0 +1,14 @@
+#! /usr/bin/bash
+
+echo rm -f bin/server
+rm -f bin/server
+cd server
+make clean
+cd ..
+echo cleaned server
+echo rm -f bin/client
+rm -f bin/client
+cd client
+make clean
+cd ..
+echo cleaned client 
