@@ -13,17 +13,17 @@ typedef struct {
 } weapon;
 
 typedef struct {
-    uint position;
+    int position;
     int health;
     uint can_jump;
     uint can_roll;
-    weapon weapon[NUM_WEAPONS];
+    weapon weapons[NUM_WEAPONS];
     char name[MAX_NAME_LENGTH];
 } mech;
 //structs
 
 //functions
-uint use_weapon(int w_num);
-uint take_damage(int dmg);
-uint move(int dir, int dist);
+uint use_weapon(mech* mech, int w_num);
+uint take_damage(mech* mech, int dmg);
+uint move(mech* mech, int dir, int dist);
 //functions

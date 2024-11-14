@@ -4,6 +4,7 @@
 #define false 0
 
 #define uint unsigned int
+#define NUM_POSITIONS 10
 
 enum {
     P1,

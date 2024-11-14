@@ -1,6 +1,10 @@
-- rewrite logger for Linux
-- rewrite game core stuff from your windows version... make it better... look at ur windows version code and you'll remember
-stuff that was dumb... fix that dumb stuff... reuse as much code as you can to make things quickly I guess
+rewrite game core 
+    - unit test mech.c functions
+    - write game_core.c, game_core.h (but better than before)
+        - keep track of turn and how many actions are left so that its functions don't require player id as input
+        - function to use weapon should both decrease that weapons uses and damage the enemy mech
+    - unit test game core
+    - have server initialize and play with a game core a little bit
 - come up with system for messages between server and client and how those are gonna work
 - decide what is going to be stored client state wrt game state
 - implement terminal version of game but multiplayer!
