@@ -3,7 +3,8 @@
 #define true 1
 #define false 0
 
-#define uint unsigned int
+typedef unsigned int uint; 
+
 #define NUM_POSITIONS 10
 
 enum {

@@ -12,3 +12,4 @@ cd client
 make clean
 cd ..
 echo cleaned client 
+rm -f bin/gc_test

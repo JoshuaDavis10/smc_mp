@@ -19,7 +19,7 @@ void log_message(message_type msgType, const char* msg, ...) {
 			printf("\e[1;33mWARN: %s\n\e[0;37m", output);
 			break;
 		case LERROR:
-			printf("\e[1;31ERROR: %s\n\e[0;37m", output);
+			printf("\e[1;31mERROR: %s\n\e[0;37m", output);
 			break;
     }
 }

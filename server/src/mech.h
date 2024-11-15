@@ -9,6 +9,7 @@
 typedef struct {
     int damage;
     int uses;
+    int range;
     char name[MAX_NAME_LENGTH];
 } weapon;
 

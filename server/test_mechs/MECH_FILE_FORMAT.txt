@@ -1,0 +1,49 @@
+--THIS IS A TEMPLATE FOR MECHFILES--
+
+NOTE: the order of each 'section' (started by #line) does not matter
+
+#name
+name here
+
+#health
+integer <- health amount
+
+#movement
+jump OR roll <- put either jump or roll here or 'walk' if the mech can't do either (but never both jump and roll)
+
+NOTE: if there are more than NUM_WEAPONS #weapon sections, we will need to throw an error
+
+#weapon
+damage <- integer number here
+uses   <- integer number here
+range  <- integer number here
+name   <- just a name here
+
+NOTE: should throw error if any of those ints ^^ are negative
+
+#weapon
+damage <- integer number here
+uses   <- integer number here
+range  <- integer number here
+name   <- just a name here
+
+NOTE: should throw error if any of those ints ^^ are negative
+NOTE: there's 2 #weapon sections bc currently NUM_WEAPONS is 2 :)
+
+//weapon and mech structs for reference
+typedef struct {
+    int damage;
+    int uses;
+    int range;
+    char name[MAX_NAME_LENGTH];
+} weapon;
+
+NOTE: position will be loaded randomly at start
+typedef struct {
+    int position;
+    int health;
+    uint can_jump;
+    uint can_roll;
+    weapon weapons[NUM_WEAPONS];
+    char name[MAX_NAME_LENGTH];
+} mech;

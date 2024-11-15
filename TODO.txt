@@ -1,10 +1,7 @@
 rewrite game core 
-    - unit test mech.c functions
-    - write game_core.c, game_core.h (but better than before)
-        - keep track of turn and how many actions are left so that its functions don't require player id as input
-        - function to use weapon should both decrease that weapons uses and damage the enemy mech
-    - unit test game core
-    - have server initialize and play with a game core a little bit
+    - unit test game_core functions cuz I have no idea if I got all that bs right <- gc_initialize()/gc_shutdown() separately for each test to get
+    specific scenarios
+    - have server initialize and play with a game core a little bit (i.e. single player like b4)
 - come up with system for messages between server and client and how those are gonna work
-- decide what is going to be stored client state wrt game state
+- decide what is going to be stored client side wrt game state
 - implement terminal version of game but multiplayer!

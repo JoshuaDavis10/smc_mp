@@ -86,6 +86,8 @@ int setup_socket() {
 
 }
 
+//TODO: put code that's in here into functions and make a server.h file for our main.c to use
+/*
 int main() {
 
     printf("DEBUG: *SERVER START*\n");
@@ -171,7 +173,6 @@ int main() {
 
     }
 
-/* message stuff
         char msg[MAX_MESSAGE_SIZE];
         int numbytes = recv(clientfd, msg, MAX_MESSAGE_SIZE-1, 0);
         if(numbytes == -1) {
@@ -192,7 +193,7 @@ int main() {
         //close sockets
         close(sockfd);
         close(clientfd);
- message stuff */
 
         return 0;
 }
+*/

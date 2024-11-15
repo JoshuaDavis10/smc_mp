@@ -1,0 +1,20 @@
+#name
+bringer of happiness
+
+#health
+100
+
+#movement
+roll
+
+#weapon
+33
+3
+4
+smacker awayer of joy
+
+#weapon
+1
+1
+1
+finishing touch
