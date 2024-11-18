@@ -1,17 +1,14 @@
-#include "game_core.h"
 #include "logger.h"
 
+#include "gc_test.h"
+
 int main() {
-
-    if(!gc_initialize("../server/test_mechs/mech1.txt", "../server/test_mechs/mech2.txt", 1, 2)) {
-        LOGERROR("failed to initialize game core.");
+    if(!initialize_gc_test()) {
+        LOGERROR("game core test failed to initialize");
         return -1;
     }
-
-    if(!gc_shutdown()) {
-        LOGERROR("game core was unable to shutdown correctly.");
-        return -1;
-    }
+    run_gc_test();
+    shutdown_gc_test();
 
     return 0;
 }

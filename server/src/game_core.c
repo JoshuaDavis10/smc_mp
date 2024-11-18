@@ -61,8 +61,8 @@ uint gc_initialize(const char* filepath1, const char* filepath2, int pos1, int p
     gc->players[P1]->position = pos1;
     gc->players[P2]->position = pos2;
 
-    LOGINFO("P1 position: %d", gc->players[P1]->position);
-    LOGINFO("P2 position: %d", gc->players[P2]->position);
+    //LOGINFO("P1 position: %d", gc->players[P1]->position);
+    //LOGINFO("P2 position: %d", gc->players[P2]->position);
     
     LOGINFO("game core initialized.");
     return true;
@@ -76,6 +76,7 @@ uint gc_shutdown() {
     free(gc->players[P1]);
     free(gc->players[P2]);
     free(gc);
+    gc = 0;
     LOGINFO("game core has been shutdown");
     return true;
 }
@@ -85,14 +86,19 @@ uint gc_walk(int dir) {
     mech* player = gc->players[gc->player];
     int p_pos = player->position;
     int e_pos = gc->players[gc->enemy]->position;
-    int mult = 1;
-    if(dir == DIR_LEFT)
-        mult = -1;
 
-    //if enemy is between player and where player is trying to walk
-    if(e_pos < p_pos && e_pos >= p_pos + mult*WALK_DISTANCE) {
-        LOGWARN("gc_walk: could not execute. enemy (pos: %d) is between player pos: %d and location player is trying to walk to: %d or enemy is on location player is trying to walk to", e_pos, p_pos, p_pos+mult*WALK_DISTANCE);
-        return false;
+    if(dir == DIR_LEFT) {
+        if(e_pos < p_pos && e_pos >= p_pos - WALK_DISTANCE) {
+            LOGWARN("gc_walk: could not execute. enemy (pos: %d) is between player pos: %d and location player is trying to walk to: %d or enemy is on location player is trying to walk to", e_pos, p_pos, p_pos-WALK_DISTANCE);
+            return false;
+        }
+    }
+
+    if(dir == DIR_RIGHT) {
+        if(e_pos > p_pos && e_pos <= p_pos + WALK_DISTANCE) {
+            LOGWARN("gc_walk: could not execute. enemy (pos: %d) is between player pos: %d and location player is trying to walk to: %d or enemy is on location player is trying to walk to", e_pos, p_pos, p_pos+WALK_DISTANCE);
+            return false;
+        }
     }
 
     if(!move(player, dir, WALK_DISTANCE)) {
@@ -162,10 +168,18 @@ uint gc_roll(int dir, int dist) {
         return false;
     }
 
-    //if enemy is between player and where player is trying to walk
-    if(e_pos < p_pos && e_pos >= p_pos + mult*dist) {
-        LOGWARN("gc_roll: could not execute. enemy (pos: %d) is between player pos: %d and location player is trying to roll to: %d or enemy is on location player is trying to roll to", e_pos, p_pos, p_pos+mult*dist);
-        return false;
+    if(dir == DIR_LEFT) {
+        if(e_pos < p_pos && e_pos >= p_pos - dist) {
+            LOGWARN("gc_roll: could not execute. enemy (pos: %d) is between player pos: %d and location player is trying to roll to: %d or enemy is on location player is trying to roll to", e_pos, p_pos, p_pos-dist);
+            return false;
+        }
+    }
+
+    if(dir == DIR_RIGHT) {
+        if(e_pos > p_pos && e_pos <= p_pos + dist) {
+            LOGWARN("gc_roll: could not execute. enemy (pos: %d) is between player pos: %d and location player is trying to roll to: %d or enemy is on location player is trying to roll to", e_pos, p_pos, p_pos+dist);
+            return false;
+        }
     }
 
     if(!move(player, dir, dist)) {
@@ -206,9 +220,11 @@ uint gc_use_weapon(int w_num) {
     int p_pos = player->position;
     int e_pos = enemy->position;
     int dist = e_pos - p_pos;
+
     if(dist < 0) {
         dist = -dist;
     }
+
     if(dist > player->weapons[w_num].range) {
         LOGWARN("gc_use_weapon: cannot use %s's weapon %d: out of range", player->name, w_num);
         return false;
@@ -244,13 +260,13 @@ uint switch_turn() {
     if(turn == P1) {
         gc->player = P2;
         gc->enemy = P1;
-        LOGINFO("switch_turn: switching turn to P2");
+        //LOGINFO("switch_turn: switching turn to P2");
         return true;
     }
     if(turn == P1) {
         gc->player = P1;
         gc->enemy = P2;
-        LOGINFO("switch_turn: switching turn to P1");
+        //LOGINFO("switch_turn: switching turn to P1");
         return true;
     }
     LOGWARN("switch_turn: couldn't switch turn. game core's value for 'player' is: %d, which is invalid", turn);
@@ -376,15 +392,9 @@ uint load_mech(mech* m, const char* filepath) {
         for(int i = 0; i < NUM_WEAPONS; i++) {
             m->weapons[i] = w[i];
         }
-
-        //TODO: temp... print all the mech info
-
-        //TEMP
-        printf("%s", temp);
-        //TEMP
     }
 
-    LOGINFO("mech:\nname: %s\nhealth: %d\nmovement:\n - roll: %d\n - jump: %d\nweapons:\n - weapon 1:\n - > damage: %d\n - > uses: %d\n - > range: %d\n - > name: %s\n - weapon 2:\n - > damage: %d\n - > uses: %d\n - > range: %d\n - > name: %s\n", m->name, m->health, m->can_roll, m->can_jump, m->weapons[0].damage, m->weapons[0].uses, m->weapons[0].range, m->weapons[0].name, m->weapons[1].damage, m->weapons[1].uses, m->weapons[1].range, m->weapons[1].name);  
+    //LOGINFO("mech:\nname: %s\nhealth: %d\nmovement:\n - roll: %d\n - jump: %d\nweapons:\n - weapon 1:\n - > damage: %d\n - > uses: %d\n - > range: %d\n - > name: %s\n - weapon 2:\n - > damage: %d\n - > uses: %d\n - > range: %d\n - > name: %s\n", m->name, m->health, m->can_roll, m->can_jump, m->weapons[0].damage, m->weapons[0].uses, m->weapons[0].range, m->weapons[0].name, m->weapons[1].damage, m->weapons[1].uses, m->weapons[1].range, m->weapons[1].name);  
 
     return true;
 }

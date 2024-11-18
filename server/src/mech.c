@@ -20,7 +20,7 @@ uint take_damage(mech* mech, int dmg) {
     }
     int temp = mech->health;
     mech->health -= dmg;
-    LOGINFO("take_damage: decreased %s's health from %d to %d", temp, mech->health);
+    LOGINFO("take_damage: decreased %s's health from %d to %d", mech->name, temp, mech->health);
     return true;
 }
 
@@ -37,7 +37,7 @@ uint move(mech* mech, int dir, int dist) {
     }
     if(dir == DIR_RIGHT) {
         if(mech->position + dist >= NUM_POSITIONS) {
-            LOGWARN("move: cannot move mech %s right by %d. %s is at position %d (furthest right position is pos: %d", 
+            LOGWARN("move: cannot move mech %s right by %d. %s is at position %d (furthest right position is pos: %d)", 
                 mech->name, dist, mech->name, mech->position, NUM_POSITIONS-1);
             return false;
         }
