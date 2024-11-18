@@ -19,4 +19,5 @@ uint gc_jump(int dir);
 uint gc_roll(int dir, int dist);
 uint gc_use_weapon(int w_num);
 mech gc_get_mech(int p_num);
+int  gc_get_turn();
 //functions

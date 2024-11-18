@@ -37,8 +37,6 @@ uint gc_initialize(const char* filepath1, const char* filepath2, int pos1, int p
         return false;
     }
 
-    LOGINFO("initializing game core...");
-
     gc = (game_core*)malloc(sizeof(game_core));
     memset(gc, 0, sizeof(game_core));
     gc->player = P1;
@@ -263,6 +261,10 @@ mech gc_get_mech(int p_num) {
         LOGWARN("gc_get_mech: invalid param value for 'p_num': %d (should be %d (P1) or %d (P2))", p_num, P1, P2);
     }
     return *(gc->players[p_num]);
+}
+
+int gc_get_turn() {
+    return gc->player;
 }
 //public functions
 
