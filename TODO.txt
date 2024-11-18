@@ -1,6 +1,4 @@
 rewrite game core 
-    - unit test game_core functions cuz I have no idea if I got all that bs right <- gc_initialize()/gc_shutdown() separately for each test to get
-    specific scenarios
     - have server initialize and play with a game core a little bit (i.e. single player like b4)
 - come up with system for messages between server and client and how those are gonna work
 - decide what is going to be stored client side wrt game state

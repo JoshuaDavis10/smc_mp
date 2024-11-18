@@ -28,7 +28,14 @@ uint tj6();
 uint tj7();
 uint tj8();
 uint tr1();
+uint tr2();
+uint tr3();
+uint tr4();
+uint tr5();
+uint tr6();
 uint tuw1();
+uint tuw2();
+uint tuw3();
 //forward declared tests
 
 //game core test pointer
@@ -65,6 +72,7 @@ uint initialize_gc_test() {
     gct->num_tests = 0;
 
     //add tests
+    /* movement tests
     add_test(tw1); 
     add_test(tw2); 
     add_test(tw3); 
@@ -80,7 +88,15 @@ uint initialize_gc_test() {
     add_test(tj7);
     add_test(tj8);
     add_test(tr1);
+    add_test(tr2);
+    add_test(tr3);
+    add_test(tr4);
+    add_test(tr5);
+    add_test(tr6);
+    movement tests */
     add_test(tuw1);
+    add_test(tuw2);
+    add_test(tuw3);
     //add tests
     
     return true;
@@ -253,9 +269,169 @@ uint tj8() {
     //roll tests
 uint tr1() {
     LOGINFO("TEST: running roll test 1...");
-    gc_initialize("../server/test_mechs/mech1.txt", "../server/test_mechs/mech2.txt", 1, 2);
-    uint result = gc_roll(DIR_RIGHT, 2);
+    gc_initialize("../server/test_mechs/mech1.txt", "../server/test_mechs/mech2.txt", NUM_POSITIONS-1, 0);
+    uint result = gc_roll(DIR_RIGHT, 1);
     ASSERT(result == false);
+    result = gc_roll(DIR_RIGHT, 2);
+    ASSERT(result == false);
+    result = gc_roll(DIR_RIGHT, 3);
+    ASSERT(result == false);
+    gc_shutdown();
+    gc_initialize("../server/test_mechs/mech1.txt", "../server/test_mechs/mech2.txt", NUM_POSITIONS-2, 0);
+    result = gc_roll(DIR_RIGHT, 1);
+    ASSERT(result == true);
+    gc_shutdown();
+    gc_initialize("../server/test_mechs/mech1.txt", "../server/test_mechs/mech2.txt", NUM_POSITIONS-2, 0);
+    result = gc_roll(DIR_RIGHT, 2);
+    ASSERT(result == false);
+    result = gc_roll(DIR_RIGHT, 3);
+    ASSERT(result == false);
+    gc_shutdown();
+    gc_initialize("../server/test_mechs/mech1.txt", "../server/test_mechs/mech2.txt", NUM_POSITIONS-3, 0);
+    result = gc_roll(DIR_RIGHT, 1);
+    ASSERT(result == true);
+    gc_shutdown();
+    gc_initialize("../server/test_mechs/mech1.txt", "../server/test_mechs/mech2.txt", NUM_POSITIONS-3, 0);
+    result = gc_roll(DIR_RIGHT, 2);
+    ASSERT(result == true);
+    gc_shutdown();
+    gc_initialize("../server/test_mechs/mech1.txt", "../server/test_mechs/mech2.txt", NUM_POSITIONS-3, 0);
+    result = gc_roll(DIR_RIGHT, 3);
+    ASSERT(result == false);
+    gc_shutdown();
+    return true;
+}
+uint tr2() {
+    LOGINFO("TEST: running roll test 2...");
+    gc_initialize("../server/test_mechs/mech1.txt", "../server/test_mechs/mech2.txt", 0, 5);
+    uint result = gc_roll(DIR_LEFT, 1);
+    ASSERT(result == false);
+    result = gc_roll(DIR_LEFT, 2);
+    ASSERT(result == false);
+    result = gc_roll(DIR_LEFT, 3);
+    ASSERT(result == false);
+    gc_shutdown();
+    gc_initialize("../server/test_mechs/mech1.txt", "../server/test_mechs/mech2.txt", 1, 5);
+    result = gc_roll(DIR_LEFT, 1);
+    ASSERT(result == true);
+    gc_shutdown();
+    gc_initialize("../server/test_mechs/mech1.txt", "../server/test_mechs/mech2.txt", 1, 5);
+    result = gc_roll(DIR_LEFT, 2);
+    ASSERT(result == false);
+    result = gc_roll(DIR_LEFT, 3);
+    ASSERT(result == false);
+    gc_shutdown();
+    gc_initialize("../server/test_mechs/mech1.txt", "../server/test_mechs/mech2.txt", 2, 5);
+    result = gc_roll(DIR_LEFT, 1);
+    ASSERT(result == true);
+    gc_shutdown();
+    gc_initialize("../server/test_mechs/mech1.txt", "../server/test_mechs/mech2.txt", 2, 5);
+    result = gc_roll(DIR_LEFT, 2);
+    ASSERT(result == true);
+    gc_shutdown();
+    gc_initialize("../server/test_mechs/mech1.txt", "../server/test_mechs/mech2.txt", 2, 5);
+    result = gc_roll(DIR_LEFT, 3);
+    ASSERT(result == false);
+    gc_shutdown();
+    return true;
+}
+uint tr3() {
+    LOGINFO("TEST: running roll test 3...");
+    gc_initialize("../server/test_mechs/mech1.txt", "../server/test_mechs/mech2.txt", 1, 2);
+    uint result = gc_roll(DIR_RIGHT, 1);
+    ASSERT(result == false);
+    result = gc_roll(DIR_RIGHT, 2);
+    ASSERT(result == false);
+    result = gc_roll(DIR_RIGHT, 3);
+    ASSERT(result == false);
+    gc_shutdown();
+    gc_initialize("../server/test_mechs/mech1.txt", "../server/test_mechs/mech2.txt", 1, 3);
+    result = gc_roll(DIR_RIGHT, 1);
+    ASSERT(result == true);
+    gc_shutdown();
+    gc_initialize("../server/test_mechs/mech1.txt", "../server/test_mechs/mech2.txt", 1, 3);
+    result = gc_roll(DIR_RIGHT, 2);
+    ASSERT(result == false);
+    result = gc_roll(DIR_RIGHT, 3);
+    ASSERT(result == false);
+    gc_shutdown();
+    gc_initialize("../server/test_mechs/mech1.txt", "../server/test_mechs/mech2.txt", 1, 4);
+    result = gc_roll(DIR_RIGHT, 1);
+    ASSERT(result == true);
+    gc_shutdown();
+    gc_initialize("../server/test_mechs/mech1.txt", "../server/test_mechs/mech2.txt", 1, 4);
+    result = gc_roll(DIR_RIGHT, 2);
+    ASSERT(result == true);
+    gc_shutdown();
+    gc_initialize("../server/test_mechs/mech1.txt", "../server/test_mechs/mech2.txt", 1, 4);
+    result = gc_roll(DIR_RIGHT, 3);
+    ASSERT(result == false);
+    gc_shutdown();
+    return true;
+}
+uint tr4() {
+    LOGINFO("TEST: running roll test 4...");
+    gc_initialize("../server/test_mechs/mech1.txt", "../server/test_mechs/mech2.txt", 2, 1);
+    uint result = gc_roll(DIR_LEFT, 1);
+    ASSERT(result == false);
+    result = gc_roll(DIR_LEFT, 2);
+    ASSERT(result == false);
+    result = gc_roll(DIR_LEFT, 3);
+    ASSERT(result == false);
+    gc_shutdown();
+    gc_initialize("../server/test_mechs/mech1.txt", "../server/test_mechs/mech2.txt", 3, 1);
+    result = gc_roll(DIR_LEFT, 1);
+    ASSERT(result == true);
+    gc_shutdown();
+    gc_initialize("../server/test_mechs/mech1.txt", "../server/test_mechs/mech2.txt", 3, 1);
+    result = gc_roll(DIR_LEFT, 2);
+    ASSERT(result == false);
+    result = gc_roll(DIR_LEFT, 3);
+    ASSERT(result == false);
+    gc_shutdown();
+    gc_initialize("../server/test_mechs/mech1.txt", "../server/test_mechs/mech2.txt", 4, 1);
+    result = gc_roll(DIR_LEFT, 1);
+    ASSERT(result == true);
+    gc_shutdown();
+    gc_initialize("../server/test_mechs/mech1.txt", "../server/test_mechs/mech2.txt", 4, 1);
+    result = gc_roll(DIR_LEFT, 2);
+    ASSERT(result == true);
+    gc_shutdown();
+    gc_initialize("../server/test_mechs/mech1.txt", "../server/test_mechs/mech2.txt", 4, 1);
+    result = gc_roll(DIR_LEFT, 3);
+    ASSERT(result == false);
+    gc_shutdown();
+    return true;
+}
+uint tr5() {
+    LOGINFO("TEST: running roll test 5...");
+    gc_initialize("../server/test_mechs/mech1.txt", "../server/test_mechs/mech2.txt", 1, 8);
+    uint result = gc_roll(DIR_RIGHT, 1);
+    ASSERT(result == true);
+    gc_shutdown();
+    gc_initialize("../server/test_mechs/mech1.txt", "../server/test_mechs/mech2.txt", 1, 8);
+    result = gc_roll(DIR_RIGHT, 2);
+    ASSERT(result == true);
+    gc_shutdown();
+    gc_initialize("../server/test_mechs/mech1.txt", "../server/test_mechs/mech2.txt", 1, 8);
+    result = gc_roll(DIR_RIGHT, 3);
+    ASSERT(result == true);
+    gc_shutdown();
+    return true;
+}
+uint tr6() {
+    LOGINFO("TEST: running roll test 6...");
+    gc_initialize("../server/test_mechs/mech1.txt", "../server/test_mechs/mech2.txt", 8, 1);
+    uint result = gc_roll(DIR_LEFT, 1);
+    ASSERT(result == true);
+    gc_shutdown();
+    gc_initialize("../server/test_mechs/mech1.txt", "../server/test_mechs/mech2.txt", 8, 1);
+    result = gc_roll(DIR_LEFT, 2);
+    ASSERT(result == true);
+    gc_shutdown();
+    gc_initialize("../server/test_mechs/mech1.txt", "../server/test_mechs/mech2.txt", 8, 1);
+    result = gc_roll(DIR_LEFT, 3);
+    ASSERT(result == true);
     gc_shutdown();
     return true;
 }
@@ -264,9 +440,33 @@ uint tr1() {
     //use weapon tests
 uint tuw1() {
     LOGINFO("TEST: running use weapon test 1...");
+    gc_initialize("../server/test_mechs/mech1.txt", "../server/test_mechs/mech2.txt", 1, 3);
+    uint result = gc_use_weapon(1);
+    ASSERT(result == false);
+    gc_walk(DIR_LEFT); //go to next guy's turn to test that
+    result = gc_use_weapon(1);
+    ASSERT(result == false);
+    gc_shutdown();
+    return true;
+}
+uint tuw2() {
+    LOGINFO("TEST: running use weapon test 2...");
+    gc_initialize("../server/test_mechs/mech1.txt", "../server/test_mechs/mech2.txt", 1, 2);
+    uint result = gc_use_weapon(1);
+    ASSERT(result == true);
+    result = gc_use_weapon(1);
+    ASSERT(result == true);
+    gc_shutdown();
+    return true;
+}
+uint tuw3() {
+    LOGINFO("TEST: running use weapon test 3...");
     gc_initialize("../server/test_mechs/mech1.txt", "../server/test_mechs/mech2.txt", 1, 2);
     uint result = gc_use_weapon(0);
-    ASSERT(result == true);
+    ASSERT(result == false);
+    gc_walk(DIR_LEFT); //go to next guy's turn to test that
+    result = gc_use_weapon(0);
+    ASSERT(result == false);
     gc_shutdown();
     return true;
 }

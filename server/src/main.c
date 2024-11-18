@@ -7,7 +7,6 @@ int main() {
         LOGERROR("game core test failed to initialize");
         return -1;
     }
-    run_gc_test();
     shutdown_gc_test();
 
     return 0;

@@ -122,7 +122,13 @@ uint gc_walk(int dir) {
 }
 
 uint gc_jump(int dir) {
+
     mech* player = gc->players[gc->player];
+
+    if(player->can_jump == 0) {
+        LOGWARN("gc_jump: could not execute. mech: %s cannot jump.", player->name);
+    }
+
     int p_pos = player->position;
     int e_pos = gc->players[gc->enemy]->position;
     int mult = 1;
@@ -156,7 +162,13 @@ uint gc_jump(int dir) {
 }
 
 uint gc_roll(int dir, int dist) {
+
     mech* player = gc->players[gc->player];
+
+    if(player->can_roll == 0) {
+        LOGWARN("gc_jump: could not execute. mech: %s cannot jump.", player->name);
+    }
+
     int p_pos = player->position;
     int e_pos = gc->players[gc->enemy]->position;
     int mult = 1;

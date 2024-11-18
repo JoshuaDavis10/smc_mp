@@ -5,11 +5,11 @@ destroyer of happiness
 100
 
 #movement
-jump
+roll
 
 #weapon
 20
-3
+0
 5
 smacker awayer of joy
 
