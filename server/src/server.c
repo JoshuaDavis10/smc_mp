@@ -1,4 +1,8 @@
 //
+#include "server.h"
+
+#include "logger.h"
+
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netdb.h>
@@ -11,10 +15,93 @@
 #include <sys/wait.h>
 
 #define MAX_BACKLOG 5 
-#define MAX_MESSAGE_SIZE 1000
 #define PORT "5001"
 
-//determine if its ipv4 or ipv6?
+static connection_info* ci = 0;
+
+//private functions forward declare
+void* get_in_addr(struct sockaddr* sa);
+int setup_socket();
+//private functions forward declare
+
+//public functions
+uint srv_initialize() {
+    if(ci != 0) {
+        LOGWARN("tried to initialize server when it is already initialized");
+        return false;
+    }
+
+    ci = (connection_info*)malloc(sizeof(connection_info));
+    memset(ci, 0, sizeof(connection_info));
+
+    int sockfd = setup_socket();
+    LOGINFO("SERVER: socket created");
+    LOGINFO("SERVER: waiting for connections...");
+
+    // wait for connections and fill in connection_info accordingly
+    struct sockaddr_storage client_one_addr, client_two_addr; //used to store address info for client
+    socklen_t client_socket_size = sizeof client_one_addr;
+    int client_one_fd, client_two_fd; //ID for client socket
+
+    //accept blocks until a connection comes in
+    client_one_fd = accept(sockfd, (struct sockaddr*)&client_one_addr, &client_socket_size);
+    if(client_one_fd == -1) {
+        LOGERROR("SERVER: accept() returned -1");
+        return false;
+    }
+    char s1[INET6_ADDRSTRLEN]; 
+    inet_ntop(client_one_addr.ss_family, get_in_addr((struct sockaddr*)&client_one_addr), s1, sizeof s1);
+    printf("DEBUG: got connection from %s\n", s1); //commenting this out bc it prints IP address LOL
+    client_two_fd = accept(sockfd, (struct sockaddr*)&client_two_addr, &client_socket_size);
+    if(client_two_fd == -1) {
+        LOGERROR("SERVER: accept() returned -1");
+        return false;
+    }
+    char s2[INET6_ADDRSTRLEN]; 
+    inet_ntop(client_two_addr.ss_family, get_in_addr((struct sockaddr*)&client_two_addr), s2, sizeof s2);
+    printf("DEBUG: got connection from %s\n", s2); //commenting this out bc it prints IP address LOL
+
+    ci->client_fd[P1] = client_one_fd;
+    ci->client_fd[P2] = client_two_fd;
+
+    return true;
+}
+
+uint srv_send_msg(const char* msg, int client) {
+
+    LOGINFO("SERVER: sending message: %s.", msg);
+
+    if(send(ci->client_fd[client], msg, strlen(msg), 0) == -1) {
+        LOGWARN("SERVER: message to client %d failed to send. send() returned -1", client);
+        return false;
+    }
+
+    return true;
+}
+
+uint srv_recv_msg(char* msg, int client) {
+    if(client != P1 && client != P2) {
+        LOGWARN("SERVER: invalid param value for 'client': %d (must be %d (P1) or %d (P2))", client, P1, P2);
+        return false;
+    }
+
+    char client_msg[MAX_MESSAGE_SIZE];
+    int numbytes = recv(ci->client_fd[client], client_msg, MAX_MESSAGE_SIZE-1, 0);
+    if(numbytes == -1) {
+        LOGWARN("SERVER: failed to receive message from client %d. recv() returned -1", client);
+        return false;
+    }
+    client_msg[numbytes-1] = '\0';
+
+    LOGINFO("SERVER: received message from client %d: %s", client, client_msg);
+
+    strcpy(msg, client_msg);
+
+    return true;
+}
+//public functions
+
+//private functions
 void* get_in_addr(struct sockaddr *sa) {
     if(sa->sa_family == AF_INET) {
         return &(((struct sockaddr_in*)sa)->sin_addr);
@@ -29,7 +116,6 @@ int setup_socket() {
     struct addrinfo hints;      //will be used as 3rd param in getaddrinfo() (give getaddrinfo 'hints' about how u want to use it?)
     struct addrinfo* servinfo;  //pass as 4th param of getaddrinfo to get the linked list of addrinfo structs
 
-//socket
     memset(&hints, 0, sizeof(struct addrinfo));// zero out memory
     hints.ai_family = AF_UNSPEC;        // don't care IPv4 or IPv6
     hints.ai_socktype = SOCK_STREAM;    // TCP stream
@@ -80,120 +166,8 @@ int setup_socket() {
         printf("\e[1;31mERROR: listen() returned -1\e[0;37m\n");
         return -1;
     }
-//socket
 
     return sockfd;
 
 }
-
-//TODO: put code that's in here into functions and make a server.h file for our main.c to use
-/*
-int main() {
-
-    printf("DEBUG: *SERVER START*\n");
-
-    int sockfd = setup_socket();
-
-    printf("DEBUG: socket created.\n");
-    printf("DEBUG: waiting for connections...\n");
-
-    struct sockaddr_storage client_one_addr, client_two_addr; //used to store address info for client
-    socklen_t client_socket_size = sizeof client_one_addr;
-    int client_one_fd, client_two_fd; //ID for client socket
-
-    //accept blocks until a connection comes in
-    client_one_fd = accept(sockfd, (struct sockaddr*)&client_one_addr, &client_socket_size);
-    if(client_one_fd == -1) {
-        printf("\e[1;31mERROR: accept() returned -1\e[0;37m\n");
-        return -1;
-    }
-    char s1[INET6_ADDRSTRLEN]; 
-    inet_ntop(client_one_addr.ss_family, get_in_addr((struct sockaddr*)&client_one_addr), s1, sizeof s1);
-    printf("DEBUG: got connection from %s\n", s1); //commenting this out bc it prints IP address LOL
-    //printf("DEBUG: got connection from client 1\n");
-    client_two_fd = accept(sockfd, (struct sockaddr*)&client_two_addr, &client_socket_size);
-    if(client_two_fd == -1) {
-        printf("\e[1;31mERROR: accept() returned -1\e[0;37m\n");
-        return -1;
-    }
-    char s2[INET6_ADDRSTRLEN]; 
-    inet_ntop(client_two_addr.ss_family, get_in_addr((struct sockaddr*)&client_two_addr), s2, sizeof s2);
-    printf("DEBUG: got connection from %s\n", s2); //commenting this out bc it prints IP address LOL
-    //printf("DEBUG: got connection from client 2\n");
-
-    int numbytes;
-    char cl1_msg[MAX_MESSAGE_SIZE];
-    char cl2_msg[MAX_MESSAGE_SIZE];
-
-    //loop and receive messages
-    int counter = 0;
-    while(1) {
-
-        //TODO: send client 1 a message so that he can start
-        //first loop
-        if(counter == 0) {
-            char* msg = "\n";
-            if(send(client_one_fd, msg, strlen(msg), 0) == -1) {
-                printf("\e[1;31mERROR: send() returned -1\e[0;37m\n");
-                return -1;
-            }
-            counter++;
-        } 
-
-        //TODO: receive from client 1
-        numbytes = recv(client_one_fd, cl1_msg, MAX_MESSAGE_SIZE-1, 0);
-        if(numbytes == -1) {
-            printf("\e[1;31mERROR: recv() returned -1\e[0;37m\n");
-            return -1;
-        }
-        cl1_msg[numbytes] = '\0';
-        printf("\e[1;33mclient one: %s\e[0;37m", cl1_msg);
-
-        //TODO: send client 1's message to client 2 
-        if(send(client_two_fd, cl1_msg, strlen(cl1_msg), 0) == -1) {
-            printf("\e[1;31mERROR: send() returned -1\e[0;37m\n");
-            return -1;
-        }
-
-        //TODO: receive from client 2
-        numbytes = recv(client_two_fd, cl2_msg, MAX_MESSAGE_SIZE-1, 0);
-        if(numbytes == -1) {
-            printf("\e[1;31mERROR: recv() returned -1\e[0;37m\n");
-            return -1;
-        }
-        cl2_msg[numbytes] = '\0';
-        printf("\e[1;32mclient two: %s\e[0;37m", cl2_msg);
-
-        //TODO: send client 2's message to client 1
-        if(send(client_one_fd, cl2_msg, strlen(cl2_msg), 0) == -1) {
-            printf("\e[1;31mERROR: send() returned -1\e[0;37m\n");
-            return -1;
-        }
-
-
-    }
-
-        char msg[MAX_MESSAGE_SIZE];
-        int numbytes = recv(clientfd, msg, MAX_MESSAGE_SIZE-1, 0);
-        if(numbytes == -1) {
-            printf("\e[1;31mERROR: recv() returned -1\e[0;37m\n");
-            exit(1);
-        }
-        msg[numbytes] = '\0'; //null terminate the message so its a string lol
-        printf("DEBUG: received message from client: %s\n", msg);
-
-        char msg_string[MAX_MESSAGE_SIZE];
-        snprintf(msg_string, MAX_MESSAGE_SIZE, "%s\n%d", server_name, server_number);
-        printf("DEBUG: sending message: %s\n", msg_string);
-        if(send(clientfd, msg_string, strlen(msg_string), 0) == -1) {
-            printf("\e[1;31mERROR: send() returned -1\e[0;37m\n");
-            exit(3);
-        }
-
-        //close sockets
-        close(sockfd);
-        close(clientfd);
-
-        return 0;
-}
-*/
+//private functions

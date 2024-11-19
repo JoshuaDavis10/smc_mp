@@ -81,20 +81,27 @@ int main(int argc, char** argv) {
             printf("\e[1;31mERROR: recv() returned -1\e[0;37m\n");
             return -1;
         }
+
         buf[numbytes] = '\0';
 
-        //TODO: print received message
-        printf("\e[1;32m- %s\e[0;37m", buf);
+        if(strcmp("A", buf) == 0) {
+            // prompt for message sent
+            printf("Your turn (enter command):\n");
 
+            // send message
+            fgets(msg, MAX_MESSAGE_SIZE, stdin);
 
-        //TODO: send message
-        printf("- ");
-        fgets(msg, MAX_MESSAGE_SIZE, stdin);
-
-        if(send(sockfd, msg, strlen(msg), 0) == -1) {
-            printf("\e[1;31mERROR: send() returned -1\e[0;37m\n");
-            return -1;
+            if(send(sockfd, msg, strlen(msg), 0) == -1) {
+                printf("\e[1;31mERROR: send() returned -1\e[0;37m\n");
+                return -1;
+            }
         }
+        else {
+            // print received message
+            printf("%s\n", buf);
+            send(sockfd, " ", strlen(" "), 0);
+        }
+
 
     }
 

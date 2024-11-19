@@ -6,6 +6,7 @@
 typedef unsigned int uint; 
 
 #define NUM_POSITIONS 10
+#define MAX_MESSAGE_SIZE 1000
 
 enum {
     P1,
