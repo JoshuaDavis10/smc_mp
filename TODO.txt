@@ -1,5 +1,11 @@
 rewrite game core 
-    - have server initialize and play with a game core a little bit (i.e. single player like b4)
-- come up with system for messages between server and client and how those are gonna work
-- decide what is going to be stored client side wrt game state
 - implement terminal version of game but multiplayer!
+    - interface in server.c server.h for getting and sending messages to client (i.e. srvr_send_msg(char* msg, int client) <- things like that)
+    - have an initialize_server function that sets up sockets and waits for connections... once connections are established, run game loop
+
+//figured out stuff but is still here in case i forget
+- come up with system for messages between server and client and how those are gonna work 
+    - I think i've just decided to use the string commands currently in use
+- decide what is going to be stored client side wrt game state
+    - all info displayed currently in terminal should prob be it that server stores (weapon uses, damage, name, range... mech health, position, can run? can jump?)
+//figured out stuff but is still here in case i forget

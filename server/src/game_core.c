@@ -125,6 +125,7 @@ uint gc_jump(int dir) {
 
     if(player->can_jump == 0) {
         LOGWARN("gc_jump: could not execute. mech: %s cannot jump.", player->name);
+        return false;
     }
 
     int p_pos = player->position;
@@ -164,7 +165,8 @@ uint gc_roll(int dir, int dist) {
     mech* player = gc->players[gc->player];
 
     if(player->can_roll == 0) {
-        LOGWARN("gc_jump: could not execute. mech: %s cannot jump.", player->name);
+        LOGWARN("gc_roll: could not execute. mech: %s cannot roll.", player->name);
+        return false;
     }
 
     int p_pos = player->position;
@@ -277,7 +279,7 @@ uint switch_turn() {
         //LOGINFO("switch_turn: switching turn to P2");
         return true;
     }
-    if(turn == P1) {
+    if(turn == P2) {
         gc->player = P1;
         gc->enemy = P2;
         //LOGINFO("switch_turn: switching turn to P1");

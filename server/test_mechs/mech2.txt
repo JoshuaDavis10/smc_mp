@@ -5,11 +5,11 @@ bringer of happiness
 100
 
 #movement
-roll
+jump
 
 #weapon
 33
-0
+3
 4
 smacker awayer of joy
 

@@ -9,7 +9,7 @@ roll
 
 #weapon
 20
-0
+3
 5
 smacker awayer of joy
 
