@@ -5,7 +5,7 @@ bringer of happiness
 100
 
 #movement
-jump
+roll
 
 #weapon
 40

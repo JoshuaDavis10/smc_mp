@@ -1,11 +1,23 @@
-rewrite game core 
-- implement terminal version of game but multiplayer!
-    - interface in server.c server.h for getting and sending messages to client (i.e. srvr_send_msg(char* msg, int client) <- things like that)
-    - have an initialize_server function that sets up sockets and waits for connections... once connections are established, run game loop
+1) fix up what you have
+    - playtest and see if there's anything goofy u want to change
+    - probably want to notify players when someone has won the game lol
+    - make sure sockets are properly closing
 
-//figured out stuff but is still here in case i forget
-- come up with system for messages between server and client and how those are gonna work 
-    - I think i've just decided to use the string commands currently in use
-- decide what is going to be stored client side wrt game state
-    - all info displayed currently in terminal should prob be it that server stores (weapon uses, damage, name, range... mech health, position, can run? can jump?)
-//figured out stuff but is still here in case i forget
+2) port client to Windows
+    - do Windows socket programming research
+    - get to the point that you have your client at now but on Windows (+ any small improvements you think of during the rewrite)
+    - NOTE: you will have to have a linux machine to run your server on... so when you're away from home maybe you can use CS1? alternatively, 
+            you can port the server to windows too...
+
+3) graphical version of client (Raylib)
+    - store some state client size so that server only has to send "updates"
+    - animate each "update"^ 
+    - server should probably wait until each player has confirmed that they're done animating (?)
+    - might as well do first iteration of game art at this point too
+
+4) update game features <- this will likely take a long time?
+    - heat/energy/physical/etc...
+    - modules?
+    - top weapons vs side weapons
+    - specials?
+    - this will come with a whole slew of kinks to work out + new animations/art to do
