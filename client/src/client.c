@@ -8,6 +8,8 @@
 #define MAX_MESSAGE_SIZE 1000
 #define PORT "5001"
 
+//TODO: this whole client is written assuming linux. ig do an ifdef for linux/windows
+
 //determine if its ipv4 or ipv6?
 void* get_in_addr(struct sockaddr *sa) {
     if(sa->sa_family == AF_INET) {

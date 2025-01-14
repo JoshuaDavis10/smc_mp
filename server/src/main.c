@@ -1,7 +1,7 @@
 #include "logger.h"
 
 #include "game_core.h"
-#include "server.h"
+#include "socket.h"
 
 #include <time.h>
 #include <stdlib.h>

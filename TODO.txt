@@ -1,13 +1,5 @@
-1) fix up what you have
-    - playtest and see if there's anything goofy u want to change
-    - probably want to notify players when someone has won the game lol
-    - make sure sockets are properly closing
-
-2) port client to Windows
-    - do Windows socket programming research
-    - get to the point that you have your client at now but on Windows (+ any small improvements you think of during the rewrite)
-    - NOTE: you will have to have a linux machine to run your server on... so when you're away from home maybe you can use CS1? alternatively, 
-            you can port the server to windows too...
+2) port to Windows
+    - rewrite with windows and linux in mind from get go <- get raylib compiled for linux
 
 3) graphical version of client (Raylib)
     - store some state client size so that server only has to send "updates"

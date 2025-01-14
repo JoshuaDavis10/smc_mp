@@ -1,5 +1,7 @@
+#ifdef __linux__
+
 //
-#include "server.h"
+#include "socket.h"
 
 #include "logger.h"
 
@@ -16,6 +18,10 @@
 
 #define MAX_BACKLOG 5 
 #define PORT "5001"
+
+typedef struct {
+    SOCKET client_fd[2];
+} connection_info;
 
 static connection_info* ci = 0;
 
@@ -171,3 +177,5 @@ int setup_socket() {
 
 }
 //private functions
+
+#endif

@@ -1,7 +1,16 @@
 CC:=gcc
 SRCDIR:=src
 OBJDIR:=obj
-BIN:=../bin/client
+
+ifeq ($(OS),Windows_NT)
+	# windows
+	BIN:=../bin/client.exe
+else
+	UNAME_S := $(shell uname -s)
+	ifeq($(UNAME_S),Linux)
+	    # Linux
+	    BIN:=../bin/client
+endif
 
 SOURCES=$(wildcard $(SRCDIR)/*.c)
 OBJECTS=$(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(wildcard $(SRCDIR)/*.c))

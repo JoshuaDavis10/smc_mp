@@ -8,7 +8,7 @@ OBJECTS=$(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(wildcard $(SRCDIR)/*.c))
 
 $(BIN): $(OBJECTS) 
 	@echo linking...
-	@$(CC) $^ -o $@
+	@$(CC) $^ -o $@ -lWs2_32
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
 	@echo compiling $<...
