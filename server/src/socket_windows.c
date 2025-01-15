@@ -7,6 +7,9 @@
 #include <winsock2.h>
 #include <Windows.h>
 
+#include <stdlib.h>
+#include <string.h>
+
 #define PORT 5001
 #define BACKLOG 10
 
@@ -33,7 +36,12 @@ uint srv_initialize() {
 
     //TODO: error check accept() calls
     SOCKET cl_1 = accept(sock, 0, 0); 
+    LOGINFO("SERVER: received connection from first client!");
     SOCKET cl_2 = accept(sock, 0, 0);
+    LOGINFO("SERVER: received connection from second client!");
+
+    ci = malloc(sizeof(connection_info));
+    memset(ci, 0, sizeof(connection_info));
 
     ci->client_fd[P1] = cl_1;
     ci->client_fd[P2] = cl_2;
