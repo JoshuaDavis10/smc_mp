@@ -20,7 +20,7 @@
 #define PORT "5001"
 
 typedef struct {
-    SOCKET client_fd[2];
+    int client_fd[2];
 } connection_info;
 
 static connection_info* ci = 0;

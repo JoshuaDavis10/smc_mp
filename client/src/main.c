@@ -1,6 +1,9 @@
 #include "logger.h"
 #include "socket.h"
 
+#include <stdio.h> //TODO: replace with logger stuff
+#include <string.h>
+
 int main(int argc, char** argv) {
 
     if(!conn_to_serv(argv[1])) {

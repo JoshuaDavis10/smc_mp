@@ -79,7 +79,7 @@ uint conn_to_serv(const char* hostname) {
 }
 
 uint recv_msg(char* msg) {
-    numbytes = recv(*(sockfd_ptr), msg, MAX_MESSAGE_SIZE-1, 0); 
+    int numbytes = recv(*(sockfd_ptr), msg, MAX_MESSAGE_SIZE-1, 0); 
     if(numbytes == -1) {
         printf("\e[1;31mERROR: recv() returned -1\e[0;37m\n");
         return false;
