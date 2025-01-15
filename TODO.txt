@@ -1,8 +1,9 @@
 2) port to Windows
-    - rewrite with windows and linux in mind from get go <- get raylib compiled for linux
+    - rewrite with windows and linux in mind from get go <- get raylib compiled for linux? <- i might get around to
+    doing graphics on linux eventually but I really don't feel like it right now haha 
 
 3) graphical version of client (Raylib)
-    - store some state client size so that server only has to send "updates"
+    - store some state client side so that server only has to send "updates"
     - animate each "update"^ 
     - server should probably wait until each player has confirmed that they're done animating (?)
     - might as well do first iteration of game art at this point too
