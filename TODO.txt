@@ -1,14 +1,17 @@
-2) port to Windows
-    - rewrite with windows and linux in mind from get go <- get raylib compiled for linux? <- i might get around to
-    doing graphics on linux eventually but I really don't feel like it right now haha 
+0) DEBUG/UPDATE TERMINAL VERSION
+    - test test test... fix any bugs you find
+    - make changes where appropriate
+        - e.g. server should notify clients who won instead of just terminating and not notifying clients
+        - store game state client side so that server only sends "updates" instead of entire game state <- i.e. will
+        have to reconfigure server messages to just be "updates", and display game info client side rather than reading
+        a big string from server
 
-3) graphical version of client (Raylib)
-    - store some state client side so that server only has to send "updates"
-    - animate each "update"^ 
+1) graphical version of client (Raylib)
+    - animate each "update" from server
     - server should probably wait until each player has confirmed that they're done animating (?)
     - might as well do first iteration of game art at this point too
 
-4) update game features <- this will likely take a long time?
+2) update game features <- this will likely take a long time?
     - heat/energy/physical/etc...
     - modules?
     - top weapons vs side weapons
