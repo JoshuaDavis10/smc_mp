@@ -1,3 +1,3 @@
-bin
-server/obj
-client/obj
+bin/*
+server/obj/*
+client/obj/*
