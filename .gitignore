@@ -1,1 +1,3 @@
 bin
+server/obj
+client/obj

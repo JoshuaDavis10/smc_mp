@@ -81,7 +81,7 @@ SOCKET setup_socket() {
     addr.sin_family = AF_INET;
     addr.sin_addr.s_addr = 0;
     addr.sin_port = htons(PORT);
-    bind(s, &addr, sizeof(addr)); //TODO: error check bind() call
+    bind(s, (SOCKADDR*) &addr, sizeof(addr)); //TODO: error check bind() call
 
     listen(s, BACKLOG); //TODO: error check listen() call
 
