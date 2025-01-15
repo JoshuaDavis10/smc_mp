@@ -9,7 +9,6 @@
 #include <netdb.h>
 #include <arpa/inet.h>
 
-#define MAX_MESSAGE_SIZE 1000
 #define PORT "5001"
 
 int* sockfd_ptr = 0;
