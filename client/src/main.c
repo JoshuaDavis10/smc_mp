@@ -8,11 +8,13 @@
 
 #include <stdio.h> //TODO: replace with logger stuff
 #include <string.h>
+#include <stdlib.h>
 
 //forward declare private functions
 uint send_mechfile(const char* mechname);
 uint get_mechfile(); 
 uint get_line(const char* expected, file mechfile);
+uint get_positions(int* pos1, int* pos2); 
 //forward declare private functions
 
 int main(int argc, char** argv) {
@@ -42,6 +44,15 @@ int main(int argc, char** argv) {
         return -1;
     }
     //receive enemy mech file
+
+    //receive random positions
+    int pos1;
+    int pos2;
+    if(!get_positions(&pos1, &pos2)) {
+        LOGERROR("Failed to get positions from server. Exiting program.");
+        return -1;
+    }
+    //receive random positions
 
     //initialize client-side version of game state
     //gc_initialize(const char* filepath1, const char* filepath2, int pos1, int pos2);
@@ -367,6 +378,33 @@ uint get_line(const char* expected, file mechfile) {
             return false;
         }
     }
+
+    return true;
+}
+
+uint get_positions(int* pos1, int* pos2) {
+
+    char buf[MAX_MESSAGE_SIZE];
+
+    if(!recv_msg(buf)) {
+        return false;
+    }
+
+    if(!(strcmp(buf, "PTS") == 0)) {
+        if(!send_msg("ACK")) {
+            return false;
+        }
+        if(!recv_msg(buf)) {
+            return false;
+        }
+    }
+
+    char* pos = strtok(buf, "-");
+    *(pos1) = atoi(pos);
+    pos = strtok(NULL, "-");
+    *(pos2) = atoi(pos);
+
+    LOGINFO("got positions: %d (you) and %d (opp).", *(pos1), *(pos2));
 
     return true;
 }

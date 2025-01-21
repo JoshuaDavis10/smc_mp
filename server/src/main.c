@@ -15,6 +15,7 @@ uint send_mechfile(int client);
 uint process_command(char* command);
 uint get_line(const char* expected, file mechfile, int client);
 uint send_line(int client, file mechfile);
+uint send_positions(int client, int p1, int p2);
 //forward declare private functions
 
 void choose_positions(int* p1, int* p2) {
@@ -53,7 +54,7 @@ int main() {
     }
     //get mechfiles
 
-    //TODO: send each client their opponents mechfiles, so that clients can initialize their own game states
+    //send mechfiles to clients
     if(!send_mechfile(P1)) {
         LOGERROR("Failed to send mechfile to player 1.");
         return -1;
@@ -62,12 +63,24 @@ int main() {
         LOGERROR("Failed to send mechfile to player 2.");
         return -1;
     }
+    //send mechfiles to clients
 
     //randomly choose starting positions
     int pos1;
     int pos2;
     choose_positions(&pos1, &pos2);
     //randomly choose starting positions
+
+    //send starting positions to clients
+    if(!send_positions(P1, pos1, pos2)) {
+        LOGERROR("Failed to send positions to player 1.");
+        return -1;
+    }
+    if(!send_positions(P2, pos2, pos1)) {
+        LOGERROR("Failed to send positions to player 2.");
+        return -1;
+    }
+    //send starting positions to clients
 
     //initialize game state
     //TODO: initialize game state from the mechfiles we got from clients
@@ -428,6 +441,35 @@ uint send_line(int client, file mechfile) {
     }
 
     return true;
+}
+
+uint send_positions(int client, int p1, int p2) {
+    char buf[MAX_MESSAGE_SIZE];
+    char msg[MAX_MESSAGE_SIZE];
+    if(!srv_send_msg("PTS", client)) {
+        return false;
+    }
+
+    if(!srv_recv_msg(buf, client)) {
+        return false;
+    }
+
+    if(strcmp(buf, "ACK") == 0) {
+        snprintf(msg, MAX_MESSAGE_SIZE, "%d-%d", p1, p2);
+        if(!srv_send_msg(msg, client)) {
+            return false;
+        }
+        if(!srv_recv_msg(buf, client)) {
+            if(strcmp(buf, "ACK") == 0) {
+                LOGINFO("sent positions to client %d.");
+                return true;
+            }
+            return false;
+        }
+    }
+    
+    LOGERROR("Didn't receive ACK from client.");
+    return false;
 }
 
 uint process_command(char* command) {

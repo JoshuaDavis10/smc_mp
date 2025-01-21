@@ -1,6 +1,5 @@
 0) UPDATE TERMINAL VERSION
-    - clients send mechfiles to server
-    - server sends mechfiles to clients (the mechfile that each client doesn't yet have)
+    - have server send randomly selected starting positions to both clients
     - notify P1 that it's their turn and get their command (<-- step 3)
     - notify both players that there was an update if command valid, otherwise notify current player that it's an invalid command and they need to 
     give a diff command
