@@ -397,6 +397,9 @@ uint get_positions(int* pos1, int* pos2) {
         if(!recv_msg(buf)) {
             return false;
         }
+        if(!send_msg("ACK")) {
+            return false;
+        }
     }
 
     char* pos = strtok(buf, "-");
