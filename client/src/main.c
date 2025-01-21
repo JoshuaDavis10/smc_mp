@@ -390,7 +390,7 @@ uint get_positions(int* pos1, int* pos2) {
         return false;
     }
 
-    if(!(strcmp(buf, "PTS") == 0)) {
+    if(strcmp(buf, "PTS") == 0) {
         if(!send_msg("ACK")) {
             return false;
         }
@@ -400,6 +400,10 @@ uint get_positions(int* pos1, int* pos2) {
         if(!send_msg("ACK")) {
             return false;
         }
+    }
+    else {
+        LOGERROR("didn't receive PTS from server.");
+        return false;
     }
 
     char* pos = strtok(buf, "-");

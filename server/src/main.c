@@ -456,6 +456,7 @@ uint send_positions(int client, int p1, int p2) {
 
     if(strcmp(buf, "ACK") == 0) {
         snprintf(msg, MAX_MESSAGE_SIZE, "%d-%d", p1, p2);
+        LOGINFO("msg: %s", msg);
         if(!srv_send_msg(msg, client)) {
             return false;
         }
