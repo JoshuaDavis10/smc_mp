@@ -304,6 +304,11 @@ uint get_mechfile() {
         return false;
     }
 
+    if(!send_msg("ACK")) {
+        LOGERROR("Failed to send ACK to server.");
+        return false;
+    }
+
     if(!recv_msg(buf)) {
         LOGERROR("Failed to receive MTX message from server.");
         return false;

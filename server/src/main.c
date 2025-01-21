@@ -366,6 +366,14 @@ uint send_mechfile(int client) {
         uint result = send_line(client, mechfile);
         if(result == 2) {
             if(!srv_send_msg("MTX", client)) {
+                char buf[MAX_MESSAGE_SIZE];
+                if(!srv_recv_msg(buf, client)) {
+                    return false;
+                }
+                if(!(strcmp(buf, "ACK") == 0)) {
+                    LOGERROR("Failed to receive ACK message from client %d.", client);
+                    return false;
+                }
                 LOGERROR("Failed to send MTX message to client %d.", client);
                 return false;
             }
@@ -376,14 +384,6 @@ uint send_mechfile(int client) {
         }
     }
 
-    char buf[MAX_MESSAGE_SIZE];
-    if(!srv_recv_msg(buf, client)) {
-        return false;
-    }
-    if(!(strcmp(buf, "ACK") == 0)) {
-        LOGERROR("Failed to receive ACK message from client %d.", client);
-        return false;
-    }
 
     LOGINFO("successfully sent mechfile to client %d.", client);
 
