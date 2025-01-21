@@ -87,7 +87,6 @@ uint send_msg(const char* msg) {
         return false;
     }
     return true;
-    return true;
 }
 //public functions
 

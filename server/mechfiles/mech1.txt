@@ -1,0 +1,20 @@
+#name
+destroyer of happiness
+
+#health
+100
+
+#movement
+jump
+
+#weapon
+35
+3
+3
+smacker awayer of joy
+
+#weapon
+50
+1
+1
+proximity face masher

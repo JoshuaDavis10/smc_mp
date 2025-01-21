@@ -1,0 +1,19 @@
+LIST OF SERVER -> CLIENT MESSAGES AND WHAT THEY MEAN
+MRS <- requesting mech data
+MRN <- requesting next line of mech data
+MRX <- finished requesting mech data
+MTS -> transmitting mech data
+MTX -> end of mech data transmission
+CR <- requesting command
+CI -> invalid command, send another command 
+CV -> command is valid... next message will be update
+
+updates:
+this will just be a list of all the command line commands in command line version of game, prepended with 'E' if enemy did it and 'U' if you did it
+i.e.
+ERL3 <- enemy rolled 3 spaces to the left
+EWR <- enemy walked right
+E1 <- enemy used weapon 1
+U0 <- you used weapon 0 
+
+FOR NOW, ANY OTHER MESSAGE FROM SERVER SHOULD IMMEDIATELY CRASH CLIENT WITH ERROR MESSAGE

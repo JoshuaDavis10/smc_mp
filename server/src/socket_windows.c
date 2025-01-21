@@ -72,7 +72,7 @@ uint srv_recv_msg(char* msg, int client) {
         LOGWARN("SERVER: failed to receive message from client %d. recv() returned -1", client);
         return false;
     }
-    client_msg[numbytes-1] = '\0';
+    client_msg[numbytes] = '\0';
 
     LOGINFO("SERVER: received message from client %d: %s", client, client_msg);
 

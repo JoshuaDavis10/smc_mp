@@ -1,10 +1,10 @@
-0) DEBUG/UPDATE TERMINAL VERSION
-    - test test test... fix any bugs you find
-    - make changes where appropriate
-        - e.g. server should notify clients who won instead of just terminating and not notifying clients
-        - store game state client side so that server only sends "updates" instead of entire game state <- i.e. will
-        have to reconfigure server messages to just be "updates", and display game info client side rather than reading
-        a big string from server
+0) UPDATE TERMINAL VERSION
+    - clients send mechfiles to server
+    - server sends mechfiles to clients (the mechfile that each client doesn't yet have)
+    - notify P1 that it's their turn and get their command (<-- step 3)
+    - notify both players that there was an update if command valid, otherwise notify current player that it's an invalid command and they need to 
+    give a diff command
+    - wait for both players to acknowledge update then go back to step 3
 
 1) graphical version of client (Raylib)
     - animate each "update" from server
